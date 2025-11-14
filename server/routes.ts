@@ -25,7 +25,7 @@ const lambdaClient = new LambdaClient({
   },
 });
 
-const S3_BUCKET = process.env.S3_BUCKET_NAME || "docx-converter-bucket";
+const S3_BUCKET = process.env.S3_BUCKET_NAME || "document-converter-tuta-projekt-input";
 const LAMBDA_FUNCTION_NAME = process.env.LAMBDA_FUNCTION_NAME || "docx-to-pdf-converter";
 
 // Configure multer for file uploads
