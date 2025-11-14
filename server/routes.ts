@@ -55,9 +55,10 @@ export async function registerRoutes(app: Express): Promise<Server> {
       const conversions = [];
 
       for (const file of files) {
+        let conversion;
         try {
           // Create conversion record
-          const conversion = await storage.createConversion({
+          conversion = await storage.createConversion({
             filename: file.originalname,
             originalSize: file.size,
             status: "uploading",
@@ -104,11 +105,12 @@ export async function registerRoutes(app: Express): Promise<Server> {
           conversions.push(updatedConversion);
         } catch (error) {
           console.error(`Error processing file ${file.originalname}:`, error);
-          // Update conversion with error status
-          await storage.updateConversion(conversion.id, {
-            status: "failed",
-            error: error instanceof Error ? error.message : "Unknown error occurred",
-          });
+          if(conversion){
+              await storage.updateConversion(conversion.id, {
+              status: "failed",
+              error: error instanceof Error ? error.message : "Unknown error occurred",
+            });
+          } 
         }
       }
 
